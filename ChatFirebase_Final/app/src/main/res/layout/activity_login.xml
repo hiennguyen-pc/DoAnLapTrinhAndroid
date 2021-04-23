@@ -4,35 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DangKi"
-    android:background="@drawable/gradient">
+    android:background="@drawable/gradient"
+    tools:context=".Login">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:text="Sign up"
-            android:textColor="#E91E63"
-            android:textSize="90dp"
-            android:textStyle="bold"></TextView>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="30dp"
-            android:background="#F10505"></RelativeLayout>
+            app:srcCompat="@drawable/logo"
+            android:layout_marginTop="30dp"/>
 
         <EditText
-            android:id="@+id/userName"
+            android:id="@+id/emaill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -54,7 +43,7 @@
             android:background="#F10505"></RelativeLayout>
 
         <EditText
-            android:id="@+id/Email"
+            android:id="@+id/passWordd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -62,28 +51,6 @@
             android:backgroundTint="?android:attr/colorBackground"
             android:drawableLeft="@drawable/ic_baseline_lock_24"
             android:hint="PassWord"
-            android:padding="15dp"
-            android:password="false"
-            android:textColor="#F4F3F3"
-            android:textColorHint="#C8C7C7"></EditText>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="30dp"
-            android:background="#F10505"></RelativeLayout>
-
-        <EditText
-            android:id="@+id/PassWord"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="?android:attr/colorBackground"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:hint="Confirm Password"
             android:padding="15dp"
             android:password="true"
             android:textColor="#F4F3F3"
@@ -102,17 +69,17 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnDangki"
+                android:id="@+id/btnDangNhap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="#E91E63"
                 android:elevation="0dp"
-                android:src="@drawable/arrow_forward_24"
+                android:src="@drawable/ic_arrow_forward_24"
                 android:tint="#E8497F"
                 app:backgroundTint="#00FFFFFF"
                 app:fabCustomSize="80dp"
@@ -124,19 +91,43 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="30dp"
-                android:text="Sign up"
+                android:text="Sign in"
                 android:textColor="#D6D5D5"
                 android:textSize="30sp"
                 android:textStyle="bold"></TextView>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="30dp"
+                android:padding="15dp"
+                android:text="Sign Up"
+                android:textColor="#D6D5D5"
+                android:textSize="18sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="30dp"
+                android:padding="15dp"
+                android:text="Forgot PassWord"
+                android:textColor="#D6D5D5"
+                android:textSize="18sp"
+                android:autoLink="all"
+                android:textStyle="bold"></TextView>
+        </RelativeLayout>
 
 
 
     </LinearLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
