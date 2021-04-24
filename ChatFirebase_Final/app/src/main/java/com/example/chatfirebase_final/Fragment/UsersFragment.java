@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.chatfirebase_final.Adapter.UserAdapter;
+import com.example.chatfirebase_final.MainActivity;
 import com.example.chatfirebase_final.Model.User;
 import com.example.chatfirebase_final.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +22,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -93,24 +100,25 @@ public class UsersFragment extends Fragment {
         return view;
     }
 
+    FirebaseFirestore ftone;
     private void readUser() {
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore fstone=FirebaseFirestore.getInstance();
-        CollectionReference reference=fstone.collection("Users");
+        ftone=FirebaseFirestore.getInstance();
+        CollectionReference reference= ftone.collection("Users");
         reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot snapshots=task.getResult();
                 if(task.isSuccessful()){
-                    QuerySnapshot querySnapshot=task.getResult();
-                    for (QueryDocumentSnapshot doc:querySnapshot){
+                    for (DocumentSnapshot doc:snapshots){
                         User user=new User();
-                        if(!firebaseUser.getEmail().toString().equals(doc.get("email").toString())) {
-                            user.setEmail(doc.get("email").toString());
+                        if(!firebaseUser.getEmail().toString().equals(doc.get("email").toString())){
                             user.setUser(doc.get("user").toString());
-                            user.setImageURL(doc.get("imageInfo").toString());
                             mUser.add(user);
                         }
+
                     }
+
                 }
                 userAdapter=new UserAdapter(getContext(),mUser);
                 recyclerView.setAdapter(userAdapter);

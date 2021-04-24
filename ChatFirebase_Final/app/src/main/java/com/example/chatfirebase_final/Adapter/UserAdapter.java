@@ -1,6 +1,8 @@
 package com.example.chatfirebase_final.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatfirebase_final.ChatMain;
 import com.example.chatfirebase_final.Model.User;
 import com.example.chatfirebase_final.R;
 
@@ -40,6 +43,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.mUser.setText(user.getUser());
         //set ảnh đại diện
         holder.profile_Image.setImageResource(R.mipmap.ic_launcher);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, ChatMain.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("UserName",user.getUser());
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

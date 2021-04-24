@@ -31,7 +31,7 @@
             android:drawableLeft="@drawable/ic_baseline_adb_24"
             android:hint="Email"
             android:padding="15dp"
-            android:text="nmhien3007@gmail.com"
+            android:text="lkj@gmail.com"
             android:textColor="#F4F3F3"
             android:textColorHint="#C8C7C7"></EditText>
 
@@ -54,7 +54,7 @@
             android:hint="PassWord"
             android:padding="15dp"
             android:password="true"
-            android:text="123456nmh"
+            android:text="nmhnmhnmh"
             android:textColor="#F4F3F3"
             android:textColorHint="#C8C7C7"></EditText>
 

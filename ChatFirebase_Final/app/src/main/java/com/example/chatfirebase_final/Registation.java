@@ -16,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -65,8 +67,6 @@ public class Registation extends AppCompatActivity {
                             userInfo.put("pass",txt_pass);
                             userInfo.put("imageInfo","default");
                             df.set(userInfo);
-                            startActivity(new Intent(getApplicationContext(),Login.class));
-                            finish();
                         }
                     })
                             .addOnFailureListener(new OnFailureListener() {
