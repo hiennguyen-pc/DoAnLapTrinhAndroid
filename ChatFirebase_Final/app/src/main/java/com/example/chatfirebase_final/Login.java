@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +63,12 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void SignUp(View view) {
+
+
+        startActivity(new Intent(getApplicationContext(), Registation.class));
     }
     protected void OnStart(){
         super.onStart();

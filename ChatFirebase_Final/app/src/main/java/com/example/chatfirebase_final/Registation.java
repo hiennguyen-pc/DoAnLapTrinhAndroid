@@ -63,6 +63,7 @@ public class Registation extends AppCompatActivity {
                             userInfo.put("user",txt_userName);
                             userInfo.put("email",txt_email);
                             userInfo.put("pass",txt_pass);
+                            userInfo.put("imageInfo","default");
                             df.set(userInfo);
                             startActivity(new Intent(getApplicationContext(),Login.class));
                             finish();
