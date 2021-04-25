@@ -90,6 +90,7 @@ public class ChatMain extends AppCompatActivity {
             public void onClick(View v) {
 
                 firebaseUser =FirebaseAuth.getInstance().getCurrentUser();
+                firestore=FirebaseFirestore.getInstance();
                 String msg=txt_text.getText().toString();
                 if(!msg.equals("")){
                     sendMessage(firebaseUser.getUid(),userName2,msg);
@@ -134,6 +135,10 @@ public class ChatMain extends AppCompatActivity {
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
         reference.child("Chats").push().setValue(hashMap);
+
+        //add vào cloud firestone
+//        CollectionReference collectionReference =firestore.collection("Chats");
+//        collectionReference.add(hashMap);
     }
     private void readMessage(String myid, String username, String ImageURL){
         mchat=new ArrayList<>();
