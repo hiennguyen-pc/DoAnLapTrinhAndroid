@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chatfirebase_final.Fragment.ChatFragment;
+import com.example.chatfirebase_final.Fragment.ProfileFragment;
 import com.example.chatfirebase_final.Fragment.UsersFragment;
 import com.example.chatfirebase_final.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,26 +63,41 @@ public class MainActivity extends AppCompatActivity {
         fstone=FirebaseFirestore.getInstance();
 
 
-        CollectionReference collectionReference= fstone.collection("Users");
-        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//        CollectionReference collectionReference= fstone.collection("Users");
+//        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//
+//                if(task.isSuccessful()){
+//                    QuerySnapshot snapshots=task.getResult();
+//                    for (QueryDocumentSnapshot doc:snapshots){
+//                        if(doc.get("email").toString().equals(firebaseUser.getEmail().toString())){
+//                            userName.setText(doc.get("user").toString());
+//                            profile_image.setImageResource(R.mipmap.ic_launcher);
+//                        }
+//                    }
+//                }
+//            }
+//        });
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user=snapshot.getValue(User.class);
+                userName.setText(user.getUser());
+                profile_image.setImageResource(R.mipmap.ic_launcher);
+            }
 
-                if(task.isSuccessful()){
-                    QuerySnapshot snapshots=task.getResult();
-                    for (QueryDocumentSnapshot doc:snapshots){
-                        if(doc.get("email").toString().equals(firebaseUser.getEmail().toString())){
-                            userName.setText(doc.get("user").toString());
-                            profile_image.setImageResource(R.mipmap.ic_launcher);
-                        }
-                    }
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
         ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new  ChatFragment(),"Chat");
         viewPagerAdapter.addFragment(new UsersFragment(),"User");
+        viewPagerAdapter.addFragment(new ProfileFragment(),"Profile");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

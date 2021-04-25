@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,26 +57,33 @@ public class Registation extends AppCompatActivity {
                 else if(txt_pass.length()<6){
                     Toast.makeText(Registation.this,"Mật khẩu phải lớn hơn 6 kí tự",Toast.LENGTH_SHORT).show();
                 }else {
-                    Auth.createUserWithEmailAndPassword(email.getText().toString(),pass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    Auth.createUserWithEmailAndPassword(email.getText().toString(),pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser user=Auth.getCurrentUser();
-                            Toast.makeText(Registation.this,"Đăng kí thành công",Toast.LENGTH_SHORT).show();
-                            DocumentReference df= fstore.collection("Users").document(user.getUid());
-                            Map<String,Object> userInfo=new HashMap<>();
-                            userInfo.put("user",txt_userName);
-                            userInfo.put("email",txt_email);
-                            userInfo.put("pass",txt_pass);
-                            userInfo.put("imageInfo","default");
-                            df.set(userInfo);
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                FirebaseUser user=Auth.getCurrentUser();
+                                DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Users").child(Auth.getUid());
+                                Map<String,Object> userInfo=new HashMap<>();
+                                userInfo.put("userID",user.getUid());
+                                userInfo.put("user",txt_userName);
+                                userInfo.put("email",txt_email);
+                                userInfo.put("pass",txt_pass);
+                                userInfo.put("imageInfo","default");
+                                reference.setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Intent intent=new Intent(Registation.this,Login.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }
+                                });
+
+                            }
                         }
-                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Registation.this,"Tạo tài khoản không thành công",Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    });
                 }
             }
         });

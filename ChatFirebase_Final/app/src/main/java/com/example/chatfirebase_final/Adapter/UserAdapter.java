@@ -48,7 +48,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent intent=new Intent(context, ChatMain.class);
                 Bundle bundle=new Bundle();
-                bundle.putString("UserName",user.getUser());
+                bundle.putString("UserName",user.getUserID());
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

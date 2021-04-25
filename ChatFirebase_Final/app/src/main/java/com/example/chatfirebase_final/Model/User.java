@@ -1,19 +1,29 @@
 package com.example.chatfirebase_final.Model;
 
 public class User {
+    private String userID;
     private String email;
-    private String ImageURL;
+    private String imageInfo;
     private String pass;
     private String user;
 
-    public User(String email, String imageURL, String pass, String user) {
+    public User(String userID, String email, String imageURL, String pass, String user) {
+        this.userID = userID;
         this.email = email;
-        ImageURL = imageURL;
+        imageInfo = imageURL;
         this.pass = pass;
         this.user = user;
     }
 
     public User() {
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getEmail() {
@@ -25,11 +35,11 @@ public class User {
     }
 
     public String getImageURL() {
-        return ImageURL;
+        return imageInfo;
     }
 
     public void setImageURL(String imageURL) {
-        ImageURL = imageURL;
+        imageInfo = imageURL;
     }
 
     public String getPass() {

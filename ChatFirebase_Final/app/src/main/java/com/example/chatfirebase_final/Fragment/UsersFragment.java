@@ -103,26 +103,46 @@ public class UsersFragment extends Fragment {
     FirebaseFirestore ftone;
     private void readUser() {
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        ftone=FirebaseFirestore.getInstance();
-        CollectionReference reference= ftone.collection("Users");
-        reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users");
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot snapshots=task.getResult();
-                if(task.isSuccessful()){
-                    for (DocumentSnapshot doc:snapshots){
-                        User user=new User();
-                        if(!firebaseUser.getEmail().toString().equals(doc.get("email").toString())){
-                            user.setUser(doc.get("user").toString());
-                            mUser.add(user);
-                        }
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUser.clear();
+                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    User user=dataSnapshot.getValue(User.class);
+                    if(!user.getUserID().equals(firebaseUser.getUid())){
+                        mUser.add(user);
                     }
-
                 }
                 userAdapter=new UserAdapter(getContext(),mUser);
                 recyclerView.setAdapter(userAdapter);
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
+//        ftone=FirebaseFirestore.getInstance();
+//        CollectionReference reference= ftone.collection("Users");
+//        reference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                QuerySnapshot snapshots=task.getResult();
+//                if(task.isSuccessful()){
+//                    for (DocumentSnapshot doc:snapshots){
+//                        User user=new User();
+//                        if(!firebaseUser.getEmail().toString().equals(doc.get("email").toString())){
+//                            user.setUser(doc.get("user").toString());
+//                            mUser.add(user);
+//                        }
+//
+//                    }
+//
+//                }
+//                userAdapter=new UserAdapter(getContext(),mUser);
+//                recyclerView.setAdapter(userAdapter);
+//            }
+//        });
     }
 }

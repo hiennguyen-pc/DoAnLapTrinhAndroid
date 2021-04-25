@@ -43,7 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatMain extends AppCompatActivity {
 
     CircleImageView circleImageView;
-    TextView username;
+    TextView username1;
     Intent intent;
     FirebaseUser firebaseUser;
     FirebaseFirestore firestore;
@@ -64,7 +64,7 @@ public class ChatMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_main);
         circleImageView=findViewById(R.id.profile_imageChat);
-        username=findViewById(R.id.userNameMainChat);
+        username1=findViewById(R.id.userNameMainChat);
         toolbar=findViewById(R.id.toolbarChat);
         btn_send=findViewById(R.id.btn_send);
         txt_text=findViewById(R.id.textMess);
@@ -89,6 +89,7 @@ public class ChatMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                firebaseUser =FirebaseAuth.getInstance().getCurrentUser();
                 String msg=txt_text.getText().toString();
                 if(!msg.equals("")){
                     sendMessage(firebaseUser.getUid(),userName2,msg);
@@ -99,32 +100,34 @@ public class ChatMain extends AppCompatActivity {
             }
         });
 
-        databaseReference=FirebaseDatabase.getInstance().getReference("Chats").child(userName2);
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user=snapshot.getValue(User.class);
-//                username.setText(user.getUser());
-//                if(user.getImageURL().equals("default")){
-//                    circleImageView.setImageResource(R.mipmap.ic_launcher);
-//                }
-//                else {
-//                    circleImageView.setImageResource(R.mipmap.ic_launcher);
-//                }
-////                readMessage(firebaseUser.getUid(),userName2,img);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//
-//
-//        });
+        databaseReference=FirebaseDatabase.getInstance().getReference("Users").child(userName2);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+                User user=snapshot.getValue(User.class);
+                username1.setText(user.getUser());
+                circleImageView.setImageResource(R.mipmap.ic_launcher);
+                User a=new User();
+                a=snapshot.getValue(User.class);
+
+                username1.setText(a.getUser().toString());
+                circleImageView.setImageResource(R.mipmap.ic_launcher);
+
+                readMessage(firebaseUser.getUid(),userName2,img);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+
+        });
 
     }
     private void sendMessage(String sender, String receiver, String message){
-
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
         HashMap<String , Object> hashMap=new HashMap<>();
         hashMap.put("sender",sender);
