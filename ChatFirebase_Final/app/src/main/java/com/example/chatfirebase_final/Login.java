@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     FloatingActionButton btnDangnhap;
     FirebaseAuth auth;
     FirebaseFirestore fstone;
+    TextView forgotPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,13 @@ public class Login extends AppCompatActivity {
         email=findViewById(R.id.emaill);
         pass=findViewById(R.id.passWordd);
         btnDangnhap=findViewById(R.id.btnDangNhap);
+        forgotPass=findViewById(R.id.forgotPass);
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this,RessetPass.class));
+            }
+        });
         btnDangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -21,7 +21,7 @@
             android:layout_marginTop="30dp"/>
 
         <EditText
-            android:id="@+id/emaill"
+            android:id="@+id/send_emaill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -31,7 +31,7 @@
             android:drawableLeft="@drawable/ic_baseline_adb_24"
             android:hint="Email"
             android:padding="15dp"
-            android:text="lkj@gmail.com"
+            android:inputType="textEmailAddress"
             android:textColor="#F4F3F3"
             android:textColorHint="#C8C7C7"></EditText>
 
@@ -43,20 +43,7 @@
             android:layout_marginEnd="30dp"
             android:background="#F10505"></RelativeLayout>
 
-        <EditText
-            android:id="@+id/passWordd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:backgroundTint="?android:attr/colorBackground"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:hint="PassWord"
-            android:padding="15dp"
-            android:password="true"
-            android:text="nmhnmhnmh"
-            android:textColor="#F4F3F3"
-            android:textColorHint="#C8C7C7"></EditText>
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -71,7 +58,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnDangNhap"
+                android:id="@+id/btnReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -93,7 +80,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="30dp"
-                android:text="Sign in"
+                android:text="RESET"
                 android:textColor="#D6D5D5"
                 android:textSize="30sp"
                 android:textStyle="bold"></TextView>
@@ -103,32 +90,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="30dp"
-                android:onClick="SignUp"
-                android:padding="15dp"
-                android:text="Sign Up"
-                android:textColor="#D6D5D5"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"></TextView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="30dp"
-                android:autoLink="all"
-                android:padding="15dp"
-                android:text="Forgot PassWord"
-                android:id="@+id/forgotPass"
-                android:textColor="#D6D5D5"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"></TextView>
+
+
         </RelativeLayout>
 
 

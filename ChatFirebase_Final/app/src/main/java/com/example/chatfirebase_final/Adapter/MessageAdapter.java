@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.chatfirebase_final.ChatMain;
 import com.example.chatfirebase_final.Model.Chat;
 import com.example.chatfirebase_final.Model.User;
@@ -55,6 +56,22 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         Chat chat=mChat.get(position);
         holder.show_message.setText(chat.getMessage());
+//        if(imageurl.equals("default")){
+//            holder.profile_Image.setImageResource(R.mipmap.ic_launcher);
+//
+//        }else {
+//            Glide.with(context).load(imageurl).into(holder.profile_Image);
+//        }
+        if(position==mChat.size()-1){
+            if(chat.isIsseen()){
+                holder.txt_seen.setText("Seen");
+            }else {
+                holder.txt_seen.setText("Delivered");
+            }
+        }
+        else {
+            holder.txt_seen.setVisibility(View.GONE);
+        }
 
 
     }
@@ -67,12 +84,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView show_message;
         public ImageView profile_Image;
+        public TextView txt_seen;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             show_message=itemView.findViewById(R.id.showMessage);
             profile_Image=itemView.findViewById(R.id.profile_image);
+            txt_seen=itemView.findViewById(R.id.txt_seen);
         }
     }
 

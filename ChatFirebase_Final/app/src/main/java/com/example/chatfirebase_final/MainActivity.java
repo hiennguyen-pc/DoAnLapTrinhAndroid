@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.chatfirebase_final.Fragment.ChatFragment;
 import com.example.chatfirebase_final.Fragment.ProfileFragment;
 import com.example.chatfirebase_final.Fragment.UsersFragment;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,30 +65,20 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
         fstone=FirebaseFirestore.getInstance();
 
-
-//        CollectionReference collectionReference= fstone.collection("Users");
-//        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//
-//                if(task.isSuccessful()){
-//                    QuerySnapshot snapshots=task.getResult();
-//                    for (QueryDocumentSnapshot doc:snapshots){
-//                        if(doc.get("email").toString().equals(firebaseUser.getEmail().toString())){
-//                            userName.setText(doc.get("user").toString());
-//                            profile_image.setImageResource(R.mipmap.ic_launcher);
-//                        }
-//                    }
-//                }
-//            }
-//        });
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user=snapshot.getValue(User.class);
                 userName.setText(user.getUser());
-                profile_image.setImageResource(R.mipmap.ic_launcher);
+                if(user.getImageInfo().equals("default")){
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+
+                }
+                else {
+                    Glide.with(getApplicationContext()).load(user.getImageInfo()).into(profile_image);
+                }
+                //profile_image.setImageResource(R.mipmap.ic_launcher);
             }
 
             @Override
@@ -130,5 +123,24 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
+    }
+    private void status(String status){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        Map<String, Object> hashMap=new HashMap<>();
+        hashMap.put("status",status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

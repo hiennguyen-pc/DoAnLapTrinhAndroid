@@ -6,13 +6,17 @@ public class User {
     private String imageInfo;
     private String pass;
     private String user;
+    private String status;
+    private String search;
 
-    public User(String userID, String email, String imageURL, String pass, String user) {
+    public User(String userID, String email, String imageInfo, String pass, String user,String status,String search) {
         this.userID = userID;
         this.email = email;
-        imageInfo = imageURL;
+        this.imageInfo = imageInfo;
         this.pass = pass;
         this.user = user;
+        this.status = status;
+        this.search=search;
     }
 
     public User() {
@@ -34,12 +38,12 @@ public class User {
         this.email = email;
     }
 
-    public String getImageURL() {
+    public String getImageInfo() {
         return imageInfo;
     }
 
-    public void setImageURL(String imageURL) {
-        imageInfo = imageURL;
+    public void setImageInfo(String imageInfo) {
+        this.imageInfo = imageInfo;
     }
 
     public String getPass() {
@@ -56,6 +60,22 @@ public class User {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }
 

@@ -39,4 +39,17 @@
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="SignOut"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        tools:ignore="InvalidId"></TextView>
+
 </RelativeLayout>

@@ -69,6 +69,8 @@ public class Registation extends AppCompatActivity {
                                 userInfo.put("email",txt_email);
                                 userInfo.put("pass",txt_pass);
                                 userInfo.put("imageInfo","default");
+                                userInfo.put("status","offline");
+                                userInfo.put("search",txt_userName.toLowerCase());
                                 reference.setValue(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

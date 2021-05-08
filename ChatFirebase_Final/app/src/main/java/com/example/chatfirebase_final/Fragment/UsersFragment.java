@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.chatfirebase_final.Adapter.UserAdapter;
@@ -26,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,6 +59,7 @@ public class UsersFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUser;
+    EditText search_user;
 
     public UsersFragment() {
         // Required empty public constructor
@@ -93,11 +98,57 @@ public class UsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_users,container,false);
         recyclerView=view.findViewById(R.id.RecyclerviewUser);
+        search_user=view.findViewById(R.id.search_user);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mUser=new ArrayList<>();
         readUser();
+        search_user.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchUser(s.toString().toLowerCase());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
+    }
+    private void searchUser(String s){
+
+        FirebaseUser firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
+        Query query=FirebaseDatabase.getInstance().getReference("Users").orderByChild("search").startAt(s).endAt(s+"\uf8ff");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(search_user.getText().toString().equals("")) {
+                    mUser.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User user = snapshot.getValue(User.class);
+                        assert user != null;
+                        assert firebaseUser != null;
+                        if (!user.getUserID().equals(firebaseUser.getUid())) {
+                            mUser.add(user);
+                        }
+                    }
+                }
+                userAdapter=new UserAdapter(getContext(),mUser,false);
+                recyclerView.setAdapter(userAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     FirebaseFirestore ftone;
@@ -114,7 +165,7 @@ public class UsersFragment extends Fragment {
                         mUser.add(user);
                     }
                 }
-                userAdapter=new UserAdapter(getContext(),mUser);
+                userAdapter=new UserAdapter(getContext(),mUser,false);
                 recyclerView.setAdapter(userAdapter);
             }
 
