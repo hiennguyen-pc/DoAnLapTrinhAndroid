@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
         <service android:name=".Notifications.MyFirebaseIdService"
             android:enabled="true"
             android:exported="true">
@@ -39,6 +40,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
+
 
     </application>
 

@@ -183,6 +183,7 @@ public class ChatMain extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user=snapshot.getValue(User.class);
                 if(notify) {
+
                     sendNotifiaction(receiver, user.getUser(), msg);
 
                 }
@@ -198,26 +199,32 @@ public class ChatMain extends AppCompatActivity {
 
     }
 
-    private void sendNotifiaction(String receiver,final String usename,String message){
+    private void sendNotifiaction(String receiver,final String username,final String message){
         DatabaseReference tokens=FirebaseDatabase.getInstance().getReference("Tokens");
 
         Query query =tokens.orderByKey().equalTo(receiver);
+
 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Token token=dataSnapshot.getValue(Token.class);
-                    Data data=new Data(firebaseUser.getUid(),R.mipmap.ic_launcher,usename+":"+message,"Tin nhắn mới",userName2);
+                    Data data=new Data(firebaseUser.getUid(),R.mipmap.ic_launcher,username+":"+message,"Tin nhắn mới",userName2);
                     Sender sender=new Sender(data,token.getToken());
                     apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                         @Override
                         public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                            if(response.code()==200){
-                                if(response.body().success != 1){
-                                    Toast.makeText(ChatMain.this,"Failed",Toast.LENGTH_SHORT).show();
-                                }
-                            }
+
+//                            if(response.code()==200){
+//
+//                                if(response.body().success != 1){
+//                                    Toast.makeText(ChatMain.this,"Failed",Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                            }
+                            Toast.makeText(ChatMain.this,""+response.message(),Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override

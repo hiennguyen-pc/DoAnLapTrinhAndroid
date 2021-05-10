@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -20,11 +21,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 public class MyFirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        Map<String, String> data_notify = remoteMessage.getData();
         String sented=remoteMessage.getData().get("sented");
+        Toast.makeText(getApplicationContext(),sented,Toast.LENGTH_SHORT).show();
         FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser!=null && sented.equals(firebaseUser.getUid())){
             sendNotification(remoteMessage);
@@ -40,7 +45,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         int j=Integer.parseInt(user.replaceAll("[\\D]",""));
         Intent intent=new Intent(this, ChatMain.class);
         Bundle bundle=new Bundle();
-        bundle.putString("userid",user);
+        bundle.putString("UserName",user);
         intent.putExtras(bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent=PendingIntent.getActivity(this,j,intent,PendingIntent.FLAG_ONE_SHOT);
@@ -56,6 +61,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             i=j;
         }
         noti.notify(i,builder.build());
+
 
     }
 }
